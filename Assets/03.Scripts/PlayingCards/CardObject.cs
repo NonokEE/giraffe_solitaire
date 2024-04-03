@@ -25,7 +25,18 @@ public class CardObject : MonoBehaviour
 
     ///<remarks>true: opened, false: closed</remarks>
     [SerializeField] private bool status = false;
-    public bool Status { get{ return status; } }
+    public bool Status 
+    { 
+        get
+        { 
+            return status; 
+        } 
+        set
+        {
+            status = value;
+            StatusChanged(status);
+        }
+    }
 
     //~ Binding ~//
     private Deck deck;
@@ -74,10 +85,5 @@ public class CardObject : MonoBehaviour
     public void Init(Deck deck, pattern pattern, int number)
     {
         Init(deck, pattern, number, true);
-    }
-    public void Flip()
-    {
-        status = !status;
-        StatusChanged(status);
     }
 }

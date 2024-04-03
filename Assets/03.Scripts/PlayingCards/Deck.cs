@@ -19,15 +19,14 @@ public class Deck : MonoBehaviour
     [SerializeField] private Sprite backSprite;
     public Sprite BackSprite { get{ return backSprite; }}
     [Space]
-    [SerializeField] private int shuffleCount = 52;
-    [SerializeField] private int randomSeed = 10000000;
-
+    [SerializeField] private int shuffleCount;
 
     //~ Bindings ~//
     [Space]
     [SerializeField] private List<CardObject> cards;
 
     //~ For Funcs ~//
+    private int remains;
 
     //~ Debug ~//
 
@@ -47,11 +46,11 @@ public class Deck : MonoBehaviour
     //~ Event Listener ~//
 
     //~ External ~//
-    [ContextMenu("Init()")]
     public void Init()
     {
         string[] patterns = {"s", "d", "h", "c"};
 
+        cards.Clear();
         foreach(pattern p in Enum.GetValues(typeof(pattern)))
         {
             if (p == pattern.NONE) continue;
@@ -66,10 +65,10 @@ public class Deck : MonoBehaviour
                 cards.Add(newCard);
             }
         }
-    }
 
-    [ContextMenu("Shuffle()")]
-    public void Shuffle()
+        remains = 52;
+    }
+    public void Shuffle(int randomSeed)
     {
         UnityEngine.Random.InitState(randomSeed);
         int randNum;
@@ -84,5 +83,20 @@ public class Deck : MonoBehaviour
             cards[randNum] = cards[count];
             cards[count] = temp;
         }
+    }
+    /// <summary> Draw top card from deck. </summary>
+    public CardObject Draw()
+    {
+        if (remains > 0) return cards[--remains];
+        else
+        {
+            Debug.Log("No card remains in " + name);
+            return null;
+        }
+    }
+
+    public void SetCardStatus(bool stat)
+    {
+        foreach(CardObject card in cards) card.Status = stat;
     }
 }
