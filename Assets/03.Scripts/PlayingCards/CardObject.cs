@@ -24,10 +24,12 @@ public class CardObject : MonoBehaviour
     public int CardNumber { get{ return cardNumber; } }
 
     ///<remarks>true: opened, false: closed</remarks>
-    [SerializeField] private bool status = true;
+    [SerializeField] private bool status = false;
     public bool Status { get{ return status; } }
 
     //~ Binding ~//
+    private Deck deck;
+    private CardSprite cardSprite;
 
     //~ Event ~//
     public Action<bool> StatusChanged;
@@ -35,44 +37,44 @@ public class CardObject : MonoBehaviour
     //~ For Funcs ~//
 
     //~ Debug ~//
-    private CardSprite cardSprite;
 
     /******* EVENT FUNC *******/
-    private void Awake() 
-    {
-        Init();
-    }
 
     /******* INTERFACE IMPLEMENT *******/
 
     /******* METHOD *******/
     //~ Internal ~//
-
-    //~ Event Listener ~//
-
-    //~ External ~//
-    public void Init()
-    {
-        cardSprite = GetComponent<CardSprite>();
-    }
-    private void Start() 
-    {
-        cardSprite.Init();
-    }
-    public void SetCard(pattern pattern, int number, bool status)
-    {
-        SetCard(pattern, number);
-        this.status = status;
-        StatusChanged(status);
-    }
-    
-    public void SetCard(pattern pattern, int number)
+    private void SetCard(pattern pattern, int number)
     {
         cardPattern = pattern;
         cardNumber = number;
     }
+    private void SetCard(pattern pattern, int number, bool status)
+    {
+        SetCard(pattern, number);
+        this.status = status;
+    }
+    private void InitSprite(Deck deck)
+    {
+        cardSprite = GetComponent<CardSprite>();
+        cardSprite.Init(deck);
+    }
+    //~ Event Listener ~//
 
-    [ContextMenu("Flip()")]
+    //~ External ~//
+    public void Init(Deck deck, pattern pattern, int number, bool status)
+    {
+        this.deck = deck;
+        cardPattern = pattern;
+        cardNumber = number;
+        this.status = status;
+        
+        InitSprite(deck);
+    }
+    public void Init(Deck deck, pattern pattern, int number)
+    {
+        Init(deck, pattern, number, true);
+    }
     public void Flip()
     {
         status = !status;

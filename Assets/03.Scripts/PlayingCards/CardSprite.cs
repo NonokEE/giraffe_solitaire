@@ -15,8 +15,6 @@ public class CardSprite : MonoBehaviour
     //~ SerializeField ~//
     [SerializeField] private Sprite frontSprite;
     [SerializeField] private Sprite backSprite;
-    [Space]
-    [SerializeField] private string spritePath = "PlayingCards/";
 
     //~ Bindings ~//
     private Image image;
@@ -32,10 +30,9 @@ public class CardSprite : MonoBehaviour
 
     /******* METHOD *******/
     //~ Internal ~//
-    private void GetSprite()
+    private void GetSprite(Deck deck)
     {
         string cardString;
-        Debug.Log(cardObject.name);
         switch(cardObject.CardPattern)
         {
             case pattern.SPADE: cardString = "s"; break;
@@ -46,8 +43,8 @@ public class CardSprite : MonoBehaviour
         }
         cardString = cardObject.CardNumber.ToString() + cardString;
 
-        frontSprite = Resources.Load<Sprite>(spritePath + cardString);
-        backSprite  = Resources.Load<Sprite>(spritePath + "back");
+        frontSprite = Resources.Load<Sprite>(deck.SpritePath + cardString);
+        backSprite  = deck.BackSprite;
     }
 
     //~ Event Listener ~//
@@ -58,14 +55,14 @@ public class CardSprite : MonoBehaviour
     }
 
     //~ External ~//
-    public void Init()
+    public void Init(Deck deck)
     {
         // Binding //
         cardObject = GetComponent<CardObject>();
         image = GetComponent<Image>();
 
         // Initiations //
-        GetSprite();
+        GetSprite(deck);
         UpdateStatus(cardObject.Status);
 
         // Event Binding //
