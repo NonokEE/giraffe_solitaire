@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/MainLobby.unity
     guid: fe1a9ee5777f8ac47a9a72c912a3a72b
+  - enabled: 1
+    path: Assets/01.Scenes/Game-Klonedike.unity
+    guid: ca7f035032103964484adbfd87f48bd2
   m_configObjects: {}
