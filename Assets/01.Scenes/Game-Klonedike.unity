@@ -1704,7 +1704,7 @@ MonoBehaviour:
   intervalTransform: {fileID: 1035689329}
   lineGroupTransform: {fileID: 1905325891}
   baseGroupTransform: {fileID: 1671089344}
-  gameSeed: 100000
+  gameSeed: 0
   lineTransform:
   - {fileID: 0}
   - {fileID: 0}
