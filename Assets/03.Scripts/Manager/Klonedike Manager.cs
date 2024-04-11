@@ -22,14 +22,14 @@ public class KlonedikeManager : MonoBehaviour
     [SerializeField] private Transform baseGroupTransform;
 
     [Header("Configs")]
-    [SerializeField] private int gameSeed = 100000;
+    [SerializeField] private int gameSeed = 0;
 
     //~ Bindings ~//
 
     //~ For Funcs ~//
     [Space]
     [Header("Debug - For Funcs")]
-    private Deck deck;
+    private Deck deck = null;
     [SerializeField] private Transform[] lineTransform = new Transform[7];
     [SerializeField] private Transform[] baseTransform = new Transform[4];
 
@@ -75,10 +75,11 @@ public class KlonedikeManager : MonoBehaviour
 
     public void SetGame()
     {
+        if (deck != null) Destroy(deck.gameObject);
         deck = Instantiate(deckPrefab, deckTransform);
         deck.Init();
         if (gameSeed == 0) deck.Shuffle(UnityEngine.Random.Range(0, int.MaxValue));
-        deck.Shuffle(gameSeed);
+        else               deck.Shuffle(gameSeed);
         SetPosition();
     }
 }

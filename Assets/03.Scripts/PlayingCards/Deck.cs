@@ -31,6 +31,10 @@ public class Deck : MonoBehaviour
     //~ Debug ~//
 
     /******* EVENT FUNC *******/
+    private void OnDestroy() 
+    {
+        foreach(CardObject card in cards) Destroy(card.gameObject);
+    }
 
     /******* INTERFACE IMPLEMENT *******/
 
