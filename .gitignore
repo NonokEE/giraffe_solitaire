@@ -1,5 +1,6 @@
 ######### Custom gitignore
 Assets/99.Packages/
+Build/
 
 ######### Default gitignore #########
 # Created by https://www.toptal.com/developers/gitignore/api/unity,csharp
