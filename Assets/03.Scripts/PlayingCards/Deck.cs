@@ -55,9 +55,9 @@ public class Deck : MonoBehaviour
         string[] patterns = {"s", "d", "h", "c"};
 
         cards.Clear();
-        foreach(pattern p in Enum.GetValues(typeof(pattern)))
+        foreach(cardPattern p in Enum.GetValues(typeof(cardPattern)))
         {
-            if (p == pattern.NONE) continue;
+            if (p == cardPattern.NONE) continue;
             for(int number = 1 ; number < 14 ; number++)
             {
                 CardObject newCard = Instantiate(cardPrefab, transform);

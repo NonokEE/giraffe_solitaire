@@ -35,10 +35,10 @@ public class CardSprite : MonoBehaviour
         string cardString;
         switch(cardObject.CardPattern)
         {
-            case pattern.SPADE: cardString = "s"; break;
-            case pattern.DIA  : cardString = "d"; break;
-            case pattern.HEART: cardString = "h"; break;
-            case pattern.CLUB : cardString = "c"; break;
+            case cardPattern.SPADE: cardString = "s"; break;
+            case cardPattern.DIA  : cardString = "d"; break;
+            case cardPattern.HEART: cardString = "h"; break;
+            case cardPattern.CLUB : cardString = "c"; break;
             default           : return;
         }
         cardString = cardObject.CardNumber.ToString() + cardString;

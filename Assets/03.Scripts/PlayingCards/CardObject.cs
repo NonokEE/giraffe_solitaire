@@ -17,8 +17,12 @@ public class CardObject : MonoBehaviour
 {
     /******* FIELD *******/
     //~ Properties ~//
-    [SerializeField] private pattern cardPattern;
-    public pattern CardPattern { get{ return cardPattern; } }
+    [SerializeField] private cardPattern cardPattern;
+    public cardPattern CardPattern { get{ return cardPattern; } }
+
+    [SerializeField] private cardColor cardColor;
+    public cardColor CardColor { get{ return cardColor; } }
+
 
     [SerializeField] private int cardNumber;
     public int CardNumber { get{ return cardNumber; } }
@@ -55,12 +59,12 @@ public class CardObject : MonoBehaviour
 
     /******* METHOD *******/
     //~ Internal ~//
-    private void SetCard(pattern pattern, int number)
+    private void SetCard(cardPattern pattern, int number)
     {
         cardPattern = pattern;
         cardNumber = number;
     }
-    private void SetCard(pattern pattern, int number, bool status)
+    private void SetCard(cardPattern pattern, int number, bool status)
     {
         SetCard(pattern, number);
         this.status = status;
@@ -73,16 +77,19 @@ public class CardObject : MonoBehaviour
     //~ Event Listener ~//
 
     //~ External ~//
-    public void Init(Deck deck, pattern pattern, int number, bool status)
+    public void Init(Deck deck, cardPattern pattern, int number, bool status)
     {
         this.deck = deck;
         cardPattern = pattern;
+        if ((cardPattern == cardPattern.CLUB) || (cardPattern == cardPattern.SPADE)) cardColor = cardColor.BLACK;
+                                                                                     cardColor = cardColor.RED;
+
         cardNumber = number;
         this.status = status;
         
         InitSprite(deck);
     }
-    public void Init(Deck deck, pattern pattern, int number)
+    public void Init(Deck deck, cardPattern pattern, int number)
     {
         Init(deck, pattern, number, true);
     }
