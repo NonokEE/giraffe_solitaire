@@ -75,9 +75,12 @@ public class KlonedikeManager : MonoBehaviour
 
     public void SetGame()
     {
+        //Initiate deck for game
         if (deck != null) Destroy(deck.gameObject);
         deck = Instantiate(deckPrefab, deckTransform);
         deck.Init();
+
+        //Set Cards for Klonedike
         if (gameSeed == 0) deck.Shuffle(UnityEngine.Random.Range(0, int.MaxValue));
         else               deck.Shuffle(gameSeed);
         SetPosition();

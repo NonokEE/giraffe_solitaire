@@ -9,7 +9,7 @@ using PlayingCards;
 /// <remarks>
 ///
 /// </remarks>
-public class CardSprite : MonoBehaviour
+public class CardSprite : MonoBehaviour, ICardSpriteStrategy
 {
     /******* FIELD *******/
     //~ SerializeField ~//
@@ -17,8 +17,9 @@ public class CardSprite : MonoBehaviour
     [SerializeField] private Sprite backSprite;
 
     //~ Bindings ~//
+    public CardController Controller { get; set; }
+
     private Image image;
-    private CardObject cardObject;
 
     //~ For Funcs ~//
 
@@ -33,7 +34,7 @@ public class CardSprite : MonoBehaviour
     private void GetSprite(Deck deck)
     {
         string cardString;
-        switch(cardObject.CardPattern)
+        switch(Controller.Pattern)
         {
             case cardPattern.SPADE: cardString = "s"; break;
             case cardPattern.DIA  : cardString = "d"; break;
@@ -41,7 +42,7 @@ public class CardSprite : MonoBehaviour
             case cardPattern.CLUB : cardString = "c"; break;
             default           : return;
         }
-        cardString = cardObject.CardNumber.ToString() + cardString;
+        cardString = Controller.Number.ToString() + cardString;
 
         frontSprite = Resources.Load<Sprite>(deck.SpritePath + cardString);
         backSprite  = deck.BackSprite;
@@ -58,7 +59,6 @@ public class CardSprite : MonoBehaviour
     public void Init(Deck deck)
     {
         // Binding //
-        cardObject = GetComponent<CardObject>();
         image = GetComponent<Image>();
 
         // Initiations //
