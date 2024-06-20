@@ -55,7 +55,7 @@ public class KlonedikeManager : MonoBehaviour
             for(int cardCount = 0 ; cardCount < lineIndex+1 ; cardCount++)
             {
                 var card = deck.Draw();
-                if (cardCount == lineIndex) card.Status = true;
+                if (cardCount == lineIndex) card.SetOpened(true);
                 card.transform.SetParent(lineTransform[lineIndex].transform);
             }
         }

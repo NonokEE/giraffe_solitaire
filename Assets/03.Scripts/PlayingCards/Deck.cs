@@ -13,7 +13,7 @@ public class Deck : MonoBehaviour
 {
     /******* FIELD *******/
     //~ Properties ~//
-    [SerializeField] private CardObject cardPrefab;
+    [SerializeField] private CardController cardPrefab;
     [SerializeField] private string spritePath;
     public string SpritePath { get{ return spritePath; }}
     [SerializeField] private Sprite backSprite;
@@ -23,7 +23,7 @@ public class Deck : MonoBehaviour
 
     //~ Bindings ~//
     [Space]
-    [SerializeField] private List<CardObject> cards;
+    [SerializeField] private List<CardController> cards;
 
     //~ For Funcs ~//
     private int remains;
@@ -33,7 +33,7 @@ public class Deck : MonoBehaviour
     /******* EVENT FUNC *******/
     private void OnDestroy() 
     {
-        foreach(CardObject card in cards) Destroy(card.gameObject);
+        foreach(CardController card in cards) Destroy(card.gameObject);
     }
 
     /******* INTERFACE IMPLEMENT *******/
@@ -60,11 +60,12 @@ public class Deck : MonoBehaviour
             if (p == cardPattern.NONE) continue;
             for(int number = 1 ; number < 14 ; number++)
             {
-                CardObject newCard = Instantiate(cardPrefab, transform);
+                CardController newCard = Instantiate(cardPrefab, transform);
                 string cardName = p.ToString() + number.ToString();
                 
                 newCard.name = cardName;
-                newCard.Init(this, p, number);
+                newCard.Deck = this;
+                newCard.SetCard(p, number);
 
                 cards.Add(newCard);
             }
@@ -76,7 +77,7 @@ public class Deck : MonoBehaviour
     {
         UnityEngine.Random.InitState(randomSeed);
         int randNum;
-        CardObject temp;
+        CardController temp;
         int count = shuffleCount;
 
         while(count-- > 0)
@@ -89,7 +90,7 @@ public class Deck : MonoBehaviour
         }
     }
     /// <summary> Draw top card from deck. </summary>
-    public CardObject Draw()
+    public CardController Draw()
     {
         if (remains > 0) return cards[--remains];
         else
@@ -101,6 +102,6 @@ public class Deck : MonoBehaviour
 
     public void SetCardStatus(bool stat)
     {
-        foreach(CardObject card in cards) card.Status = stat;
+        foreach(CardController card in cards) card.SetOpened(stat);
     }
 }
