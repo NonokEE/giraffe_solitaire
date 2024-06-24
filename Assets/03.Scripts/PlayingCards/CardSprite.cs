@@ -10,18 +10,18 @@ using PlayingCards;
 /// <remarks>
 ///
 /// </remarks>
-public class CardSprite : MonoBehaviour, ICardSpriteStrategy
+public class CardSprite : AbsCardSpriteStrategy
 {
     /******* FIELD *******/
     //~ Attribute ~//
     [SerializeField] private Sprite frontSprite;
-    public Sprite FrontSprite { get{ return frontSprite; } }
+    public override Sprite FrontSprite { get{ return frontSprite; } }
 
     [SerializeField] private Sprite backSprite;
-    public Sprite BackSprite { get{ return backSprite; } set{ backSprite = value;} }
+    public override Sprite BackSprite { get{ return backSprite; } set{ backSprite = value;} }
 
     //~ Bindings ~//
-    public CardController Controller { get; set; }
+    public override ICardControllerStrategy Controller { get; set; }
     private Image currentImage;
 
     //~ For Funcs ~//
@@ -38,7 +38,7 @@ public class CardSprite : MonoBehaviour, ICardSpriteStrategy
     }
 
     /******* INTERFACE IMPLEMENT *******/
-    public void FlipCallback(bool value)
+    public override void FlipCallback(bool value)
     {
         UpdateSprite(value);
     }

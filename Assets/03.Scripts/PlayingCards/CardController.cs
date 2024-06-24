@@ -9,29 +9,29 @@ using UnityEngine;
 /// <remarks>
 /// 카드의 물리적 상태(Status), 게임적 상태(Attribute) 등을 정의하고, 조작 상호작용 및 스프라이트 제어 객체와의 연결 중추 역할을 함.
 /// </remarks>
-public class CardController : MonoBehaviour, ICardControllerStrategy
+public class CardController : AbsCardControllerStrategy
 {
     /******* FIELD *******/
     //~ Status ~//
     [SerializeField] private cardStatus status;
     /// <remarks>카드의 게임엔진상 상태. IDLE, HOLDING, STICK 등.</remarks>
-    public cardStatus Status {get {return status;} }
+    public override cardStatus Status {get {return status;} }
 
-    public Deck Deck { get; set; }
+    public override Deck Deck { get; set; }
     private Deck deck;
 
     //~ Attribute ~//
     [SerializeField] private cardPattern pattern;
-    public cardPattern Pattern {get {return pattern;} }
+    public override cardPattern Pattern {get {return pattern;} }
 
     [SerializeField] private cardColor color;
-    public cardColor Color {get {return color;} }
+    public override cardColor Color {get {return color;} }
 
     [SerializeField] private int number;
-    public int Number {get {return number;} }
+    public override int Number {get {return number;} }
 
     [SerializeField] private bool isOpened = true;
-    public bool IsOpened {get {return isOpened;} }
+    public override bool IsOpened {get {return isOpened;} }
 
     //~ Strategies ~//
     private ICardSpriteStrategy cardSpriteStrategy;
@@ -52,13 +52,13 @@ public class CardController : MonoBehaviour, ICardControllerStrategy
     }
 
     /******* INTERFACE IMPLEMENT *******/
-    public void SetOpened(bool isOpened)
+    public override void SetOpened(bool isOpened)
     {
         if (this.isOpened != isOpened) E_Fliped(isOpened);
         this.isOpened = isOpened;
     }
 
-    public void SetCard(cardPattern pattern, int number)
+    public override void SetCard(cardPattern pattern, int number)
     {
         this.pattern = pattern;
         switch(pattern)
@@ -71,7 +71,7 @@ public class CardController : MonoBehaviour, ICardControllerStrategy
         this.number = number;
     }
 
-    public void SetCard(cardPattern pattern, int number, bool isOpened)
+    public override void SetCard(cardPattern pattern, int number, bool isOpened)
     {
         SetCard(pattern, number);
         SetOpened(isOpened);
