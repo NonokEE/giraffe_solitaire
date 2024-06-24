@@ -15,27 +15,27 @@ public class CardController : AbsCardControllerStrategy
     //~ Status ~//
     [SerializeField] private cardStatus status;
     /// <remarks>카드의 게임엔진상 상태. IDLE, HOLDING, STICK 등.</remarks>
-    public override cardStatus Status {get {return status;} }
+    public override cardStatus Status { get{ return status; } }
 
-    public override Deck Deck { get; set; }
-    private Deck deck;
+    [SerializeField] private Deck deck;
+    public override Deck Deck { get{ return deck; } set{deck = value; } }
 
     //~ Attribute ~//
     [SerializeField] private cardPattern pattern;
-    public override cardPattern Pattern {get {return pattern;} }
+    public override cardPattern Pattern { get{ return pattern; } }
 
     [SerializeField] private cardColor color;
-    public override cardColor Color {get {return color;} }
+    public override cardColor Color { get{ return color; } }
 
     [SerializeField] private int number;
-    public override int Number {get {return number;} }
+    public override int Number { get{ return number; } }
 
     [SerializeField] private bool isOpened = true;
-    public override bool IsOpened {get {return isOpened;} }
+    public override bool IsOpened { get{ return isOpened; } }
 
     //~ Strategies ~//
-    private ICardSpriteStrategy cardSpriteStrategy;
-    private ICardPlayStrategy cardPlayStrategy;
+    private AbsCardSpriteStrategy cardSpriteStrategy;
+    private abscardPlayStrategy cardPlayStrategy;
 
     //~ Binding ~//
 

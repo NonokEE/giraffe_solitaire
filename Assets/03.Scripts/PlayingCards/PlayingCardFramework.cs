@@ -23,13 +23,28 @@ namespace PlayingCards
     //Deck
     public interface IDeck
     {
-        public ICardControllerStrategy CardController { get; set; }
+        ///<remarks>덱을 이루는 카드에 사용할 controller의 Prefab </remarks>
+        public AbsCardControllerStrategy CardPrefab { get; set; }
+
+        ///<remarks>덱을 이루게 되는 실제 카드 오브젝트</remarks>
+        public AbsCardControllerStrategy[] Cards { get; }
         public string BackSpritePath { get; set; }
 
         public int Remains { get; }
 
         public void Initialize(bool doShuffle);
-        public ICardControllerStrategy Draw();
+        public AbsCardControllerStrategy Draw();
+    }
+
+    public abstract class AbsDeck : MonoBehaviour, IDeck
+    {
+        public abstract AbsCardControllerStrategy CardPrefab { get; set; }
+        public abstract AbsCardControllerStrategy[] Cards { get; }
+        public abstract string BackSpritePath { get; set; }
+        public abstract int Remains { get; }
+
+        public abstract AbsCardControllerStrategy Draw();
+        public abstract void Initialize(bool doShuffle);
     }
 
     //Cards
@@ -63,7 +78,7 @@ namespace PlayingCards
 
     public interface ICardSpriteStrategy
     {
-        public ICardControllerStrategy Controller{ get; set; }
+        public AbsCardControllerStrategy Controller{ get; set; }
 
         public Sprite FrontSprite { get; }
         public Sprite BackSprite { get; set; }
@@ -73,7 +88,7 @@ namespace PlayingCards
 
     public abstract class AbsCardSpriteStrategy : MonoBehaviour, ICardSpriteStrategy
     {
-        public abstract ICardControllerStrategy Controller { get; set; }
+        public abstract AbsCardControllerStrategy Controller { get; set; }
         public abstract Sprite FrontSprite { get; }
         public abstract Sprite BackSprite { get; set; }
 
@@ -85,4 +100,10 @@ namespace PlayingCards
         public CardController Controller{ get; set; }
 
     }
+
+    public abstract class abscardPlayStrategy : MonoBehaviour, ICardPlayStrategy
+    {
+        public abstract CardController Controller { get; set; }
+    }
+
 }

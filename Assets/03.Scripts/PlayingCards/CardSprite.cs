@@ -21,7 +21,8 @@ public class CardSprite : AbsCardSpriteStrategy
     public override Sprite BackSprite { get{ return backSprite; } set{ backSprite = value;} }
 
     //~ Bindings ~//
-    public override ICardControllerStrategy Controller { get; set; }
+    [SerializeField] private AbsCardControllerStrategy controller;
+    public override AbsCardControllerStrategy Controller { get { return controller; } set{ controller = value;} }
     private Image currentImage;
 
     //~ For Funcs ~//
