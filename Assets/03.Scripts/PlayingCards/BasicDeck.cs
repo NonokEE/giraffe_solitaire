@@ -16,16 +16,16 @@ public abstract class BasicDeck : AbsDeck
     [SerializeField] protected AbsCardControllerStrategy cardPrefab;
     public override AbsCardControllerStrategy CardPrefab { get{ return cardPrefab; } set{ cardPrefab = value; } }
 
-    [SerializeField] protected AbsCardControllerStrategy[] cards;
-    public override AbsCardControllerStrategy[] Cards { get{ return cards; } }
+    [SerializeField] protected List<AbsCardControllerStrategy> cards;
+    public override List<AbsCardControllerStrategy> Cards { get{ return cards; } }
 
     [Space]
 
-    [SerializeField] private string backSpritePath;
+    [SerializeField] protected string backSpritePath;
     public override string BackSpritePath { get{ return backSpritePath; } set{} }
 
-    [SerializeField] private int remains;
-    public override int Remains => throw new System.NotImplementedException();
+    [SerializeField] protected int remains;
+    public override int Remains { get{ return remains; } }
 
 
     //~ variables ~//
@@ -57,6 +57,7 @@ public abstract class BasicDeck : AbsDeck
 
     //~ External ~//
     public abstract override AbsCardControllerStrategy Draw();
-    public abstract override void Initialize(bool doShuffle);
+    public abstract override void Initialize();
+    public abstract override void Initialize(int randomSeed);
 
 }

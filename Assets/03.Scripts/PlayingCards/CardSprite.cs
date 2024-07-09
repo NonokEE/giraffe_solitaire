@@ -20,6 +20,8 @@ public class CardSprite : AbsCardSpriteStrategy
     [SerializeField] private Sprite backSprite;
     public override Sprite BackSprite { get{ return backSprite; } set{ backSprite = value;} }
 
+    [Space]
+
     //~ Bindings ~//
     [SerializeField] private AbsCardControllerStrategy controller;
     public override AbsCardControllerStrategy Controller { get { return controller; } set{ controller = value;} }
@@ -31,10 +33,9 @@ public class CardSprite : AbsCardSpriteStrategy
     //~ Debug ~//
 
     /******* EVENT FUNC *******/
-    private void Awake()
+    public override void Initiate()
     {
         currentImage = GetComponent<Image>();
-
         GetSprite();
     }
 
@@ -48,18 +49,18 @@ public class CardSprite : AbsCardSpriteStrategy
     //~ Internal ~//
     private void GetSprite()
     {
-        // string cardString;
-        // switch(Controller.Pattern)
-        // {
-        //     case cardPattern.SPADE: cardString = "s"; break;
-        //     case cardPattern.DIA  : cardString = "d"; break;
-        //     case cardPattern.HEART: cardString = "h"; break;
-        //     case cardPattern.CLUB : cardString = "c"; break;
-        //     default           : return;
-        // }
-        // cardString = Controller.Number.ToString() + cardString;
+        string cardString;
+        switch(Controller.Pattern)
+        {
+            case CardPattern.SPADE: cardString = "s"; break;
+            case CardPattern.DIA  : cardString = "d"; break;
+            case CardPattern.HEART: cardString = "h"; break;
+            case CardPattern.CLUB : cardString = "c"; break;
+            default           : return;
+        }
+        cardString = Controller.Number.ToString() + cardString;
 
-        frontSprite = Resources.Load<Sprite>(spritePath + gameObject.name);
+        frontSprite = Resources.Load<Sprite>(spritePath + cardString);
     }
 
     //~ Event Listener ~//
@@ -70,5 +71,4 @@ public class CardSprite : AbsCardSpriteStrategy
     }
 
     //~ External ~//
-
 }

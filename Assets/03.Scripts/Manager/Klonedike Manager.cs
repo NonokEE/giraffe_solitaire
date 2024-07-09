@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using PlayingCards;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -13,7 +13,7 @@ public class KlonedikeManager : MonoBehaviour
     /******* FIELD *******/
     //~ Properties ~//   
     [Header("Prefabs")]
-    [SerializeField] private Deck deckPrefab;
+    [SerializeField] private AbsDeck deckPrefab;
 
     [Header("Positions")]
     [SerializeField] private Transform deckTransform;
@@ -29,7 +29,7 @@ public class KlonedikeManager : MonoBehaviour
     //~ For Funcs ~//
     [Space]
     [Header("Debug - For Funcs")]
-    private Deck deck = null;
+    private AbsDeck deck = null;
     [SerializeField] private Transform[] lineTransform = new Transform[7];
     [SerializeField] private Transform[] baseTransform = new Transform[4];
 
@@ -49,16 +49,16 @@ public class KlonedikeManager : MonoBehaviour
     /// <returns>  </returns>
     private void SetPosition()
     {
-        deck.SetCardStatus(false);
-        for(int lineIndex = 0 ; lineIndex < 7 ; lineIndex++)
-        {
-            for(int cardCount = 0 ; cardCount < lineIndex+1 ; cardCount++)
-            {
-                var card = deck.Draw();
-                if (cardCount == lineIndex) card.SetOpened(true);
-                card.transform.SetParent(lineTransform[lineIndex].transform);
-            }
-        }
+        // deck.SetCardStatus(false);
+        // for(int lineIndex = 0 ; lineIndex < 7 ; lineIndex++)
+        // {
+        //     for(int cardCount = 0 ; cardCount < lineIndex+1 ; cardCount++)
+        //     {
+        //         var card = deck.Draw();
+        //         if (cardCount == lineIndex) card.SetOpened(true);
+        //         card.transform.SetParent(lineTransform[lineIndex].transform);
+        //     }
+        // }
     }
 
     //~ Event Listener ~//
@@ -75,14 +75,14 @@ public class KlonedikeManager : MonoBehaviour
 
     public void SetGame()
     {
-        //Initiate deck for game
-        if (deck != null) Destroy(deck.gameObject);
-        deck = Instantiate(deckPrefab, deckTransform);
-        deck.Init();
+        // //Initiate deck for game
+        // if (deck != null) Destroy(deck.gameObject);
+        // deck = Instantiate(deckPrefab, deckTransform);
+        // deck.Init();
 
-        //Set Cards for Klonedike
-        if (gameSeed == 0) deck.Shuffle(UnityEngine.Random.Range(0, int.MaxValue));
-        else               deck.Shuffle(gameSeed);
-        SetPosition();
+        // //Set Cards for Klonedike
+        // if (gameSeed == 0) deck.Shuffle(UnityEngine.Random.Range(0, int.MaxValue));
+        // else               deck.Shuffle(gameSeed);
+        // SetPosition();
     }
 }

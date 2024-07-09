@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using PlayingCards;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
@@ -13,19 +15,19 @@ public class CardController : AbsCardControllerStrategy
 {
     /******* FIELD *******/
     //~ Status ~//
-    [SerializeField] private cardStatus status;
+    [SerializeField] private CardStatus status;
     /// <remarks>카드의 게임엔진상 상태. IDLE, HOLDING, STICK 등.</remarks>
-    public override cardStatus Status { get{ return status; } }
+    public override CardStatus Status { get{ return status; } }
 
-    [SerializeField] private Deck deck;
-    public override Deck Deck { get{ return deck; } set{deck = value; } }
+    [SerializeField] private IDeck deck;
+    public override IDeck Deck { get{ return deck; } set{deck = value; } }
 
     //~ Attribute ~//
-    [SerializeField] private cardPattern pattern;
-    public override cardPattern Pattern { get{ return pattern; } }
+    [SerializeField] private CardPattern pattern;
+    public override CardPattern Pattern { get{ return pattern; } }
 
-    [SerializeField] private cardColor color;
-    public override cardColor Color { get{ return color; } }
+    [SerializeField] private CardColor color;
+    public override CardColor Color { get{ return color; } }
 
     [SerializeField] private int number;
     public override int Number { get{ return number; } }
@@ -35,7 +37,7 @@ public class CardController : AbsCardControllerStrategy
 
     //~ Strategies ~//
     private AbsCardSpriteStrategy cardSpriteStrategy;
-    private abscardPlayStrategy cardPlayStrategy;
+    private AbscardPlayStrategy cardPlayStrategy;
 
     //~ Binding ~//
 
@@ -45,36 +47,44 @@ public class CardController : AbsCardControllerStrategy
     //~ Debug ~//
 
     /******* EVENT FUNC *******/
-    private void Awake() 
-    {
-        InitiateStrategies();
-        E_Fliped(true);
-    }
 
     /******* INTERFACE IMPLEMENT *******/
+    public override void Initiate()
+    {
+        //! Strategy 바뀔 때 이 부분을 수정 !//
+        cardSpriteStrategy = gameObject.AddComponent<CardSprite>();
+
+        /////////////////////////////////////
+        cardSpriteStrategy.Controller = this;
+        cardSpriteStrategy.BackSprite = Resources.Load<Sprite>(deck.BackSpritePath);
+        cardSpriteStrategy.Initiate();
+        E_Fliped += cardSpriteStrategy.FlipCallback;
+    }
+
     public override void SetOpened(bool isOpened)
     {
         if (this.isOpened != isOpened) E_Fliped(isOpened);
         this.isOpened = isOpened;
     }
 
-    public override void SetCard(cardPattern pattern, int number)
+    public override void SetCard(CardPattern pattern, int number)
     {
         this.pattern = pattern;
         switch(pattern)
         {
-            case cardPattern.SPADE: color = cardColor.BLACK; break;
-            case cardPattern.CLUB : color = cardColor.BLACK; break;
-            case cardPattern.DIA  : color = cardColor.RED  ; break;
-            case cardPattern.HEART: color = cardColor.RED  ; break;
+            case CardPattern.SPADE: color = CardColor.BLACK; break;
+            case CardPattern.CLUB : color = CardColor.BLACK; break;
+            case CardPattern.DIA  : color = CardColor.RED  ; break;
+            case CardPattern.HEART: color = CardColor.RED  ; break;
         }
         this.number = number;
+        SetOpened(isOpened);
     }
 
-    public override void SetCard(cardPattern pattern, int number, bool isOpened)
+    public override void SetCard(CardPattern pattern, int number, bool isOpened)
     {
+        this.isOpened = isOpened;
         SetCard(pattern, number);
-        SetOpened(isOpened);
     }
     /******* METHOD *******/
     //~ Internal ~//
@@ -84,17 +94,6 @@ public class CardController : AbsCardControllerStrategy
     /// </remarks>
     /// <param name="paraName"> param description </param>
     /// <returns>  </returns>
-    private void InitiateStrategies()
-    {
-        //! Strategy 바뀔 때 이 부분을 수정 !//
-        cardSpriteStrategy = gameObject.AddComponent<CardSprite>();
-
-        /////////////////////////////////////
-        cardSpriteStrategy.Controller = this;
-        cardSpriteStrategy.BackSprite = Resources.Load<Sprite>("PlayingCards/back");
-        //cardSpriteStrategy.BackSprite = deck.BackSprite;
-        E_Fliped += cardSpriteStrategy.FlipCallback;
-    }
     //~ Event Listener ~//
 
     //~ External ~//
@@ -102,6 +101,4 @@ public class CardController : AbsCardControllerStrategy
     //~ Event Listener ~//
 
     //~ External ~//
-
-    
 }
